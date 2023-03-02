@@ -1,14 +1,14 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+#![no_std]
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+mod system;
+pub mod application;
+pub mod framebuffer;
+pub mod geometry;
+pub mod gamepad;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+#[allow(dead_code)]
+pub fn trace(msg: &str) {
+    unsafe {
+        system::traceUtf8(msg.as_ptr(), msg.len());
     }
 }
