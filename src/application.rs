@@ -15,8 +15,8 @@ macro_rules! main_application {
 
         #[no_mangle]
         unsafe extern "C" fn start() {
-            let framebuffer = $crate::wasm4::framebuffer::Framebuffer::new();
-            let application = <$application as $crate::wasm4::application::Application>::start(framebuffer);
+            let framebuffer = $crate::framebuffer::Framebuffer::new();
+            let application = <$application as $crate::application::Application>::start(framebuffer);
             unsafe {
                 MAIN_APPLICATION = core::mem::MaybeUninit::new(application);
             }
@@ -25,7 +25,7 @@ macro_rules! main_application {
         #[no_mangle]
         unsafe extern "C" fn update() {
             let application = unsafe { MAIN_APPLICATION.assume_init_mut() };
-            <$application as $crate::wasm4::application::Application>::update(application);
+            <$application as $crate::application::Application>::update(application);
         }
     };
 }
