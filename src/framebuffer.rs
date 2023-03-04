@@ -9,6 +9,10 @@ impl Framebuffer {
         Self {}
     }
 
+    pub fn get_size(&self) -> Size<u32> {
+        Size::new(system::SCREEN_WIDTH, system::SCREEN_HEIGHT)
+    }
+
     pub fn line(&self, start: Point<i32>, end: Point<i32>) {
         unsafe { system::line(start.x, start.y, end.x, end.y) }
     }

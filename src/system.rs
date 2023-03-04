@@ -2,7 +2,8 @@
 
 use core::ffi::c_void;
 
-pub const SCREEN_SIZE: u32 = 160;
+pub const SCREEN_WIDTH: u32 = 160;
+pub const SCREEN_HEIGHT: u32 = 160;
 
 pub const PALETTE: *mut [u32; 4] = 0x04 as *mut [u32; 4];
 pub const DRAW_COLORS: *mut u16 = 0x14 as *mut u16;
@@ -15,6 +16,9 @@ pub const MOUSE_Y: *const i16 = 0x1c as *const i16;
 pub const MOUSE_BUTTONS: *const u8 = 0x1e as *const u8;
 pub const SYSTEM_FLAGS: *mut u8 = 0x1f as *mut u8;
 pub const FRAMEBUFFER: *mut [u8; 6400] = 0xa0 as *mut [u8; 6400];
+
+pub const CHAR_WIDTH: u32 = 8;
+pub const CHAR_HEIGHT: u32 = 8;
 
 pub const BUTTON_1: u8 = 1;
 pub const BUTTON_2: u8 = 2;
