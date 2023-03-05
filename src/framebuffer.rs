@@ -5,7 +5,7 @@ pub struct Framebuffer {}
 
 #[allow(dead_code)]
 impl Framebuffer {
-    pub unsafe fn new() -> Self {
+    pub const unsafe fn new() -> Self {
         Self {}
     }
 

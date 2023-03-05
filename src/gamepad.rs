@@ -21,29 +21,13 @@ pub enum GamepadButton {
 
 #[allow(dead_code)]
 impl Gamepad {
-    unsafe fn new(address: *const u8) -> Self {
+    pub(crate) const unsafe fn new(address: *const u8) -> Self {
         Gamepad { address, last_state: 0 }
-    }
-
-    pub fn gamepad1() -> Self {
-        unsafe { Gamepad::new(system::GAMEPAD1) }
-    }
-
-    pub fn gamepad2() -> Self {
-        unsafe { Gamepad::new(system::GAMEPAD2) }
-    }
-
-    pub fn gamepad3() -> Self {
-        unsafe { Gamepad::new(system::GAMEPAD3) }
-    }
-
-    pub fn gamepad4() -> Self {
-        unsafe { Gamepad::new(system::GAMEPAD4) }
     }
 }
 
 impl Gamepad {
-    pub fn late_update(&mut self) {
+    pub(crate) unsafe fn late_update(&mut self) {
         unsafe {
             self.last_state = *self.address;
         }
