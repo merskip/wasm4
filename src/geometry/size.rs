@@ -1,4 +1,4 @@
-#[derive(Copy, Clone, Eq, PartialEq, Default)]
+#[derive(Copy, Clone, Eq, PartialEq, Default, Debug)]
 pub struct Size<T> {
     pub width: T,
     pub height: T,

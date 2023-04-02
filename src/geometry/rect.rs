@@ -1,6 +1,6 @@
 use crate::geometry::{Point, Size};
 
-#[derive(Copy, Clone, Eq, PartialEq, Default)]
+#[derive(Copy, Clone, Eq, PartialEq, Default, Debug)]
 pub struct Rect {
     pub origin: Point<i32>,
     pub size: Size<u32>,
