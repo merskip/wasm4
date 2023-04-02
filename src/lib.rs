@@ -1,5 +1,9 @@
 #![no_std]
 
+extern crate alloc;
+
+use alloc::string::ToString;
+use core::fmt;
 use crate::geometry::Size;
 
 mod system;
@@ -18,4 +22,19 @@ pub fn trace(msg: &str) {
     unsafe {
         system::traceUtf8(msg.as_ptr(), msg.len());
     }
+}
+
+pub fn _trace_args(args: fmt::Arguments) {
+    let string = args.to_string();
+    trace(&*string);
+}
+
+#[macro_export]
+macro_rules! println {
+    () => (
+        $crate::trace("");
+    );
+    ($($arg:tt)*) => (
+        $crate::_trace_args(format_args!($($arg)*))
+    );
 }
