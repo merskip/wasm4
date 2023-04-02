@@ -7,7 +7,7 @@ pub struct Rect {
 }
 
 impl Rect {
-    pub fn new(origin: Point<i32>, size: Size<u32>) -> Self {
+    pub const fn new(origin: Point<i32>, size: Size<u32>) -> Self {
         Self { origin, size }
     }
 }
