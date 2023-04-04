@@ -1,7 +1,29 @@
 use crate::geometry::{Point, Size};
+use crate::sprite::Sprite;
 use crate::system;
 
 pub struct Framebuffer {}
+
+#[derive(Copy, Clone, Debug)]
+pub enum DrawColorIndex {
+    /// Foreground, fill
+    Index1 = 0,
+    /// Outline, background
+    Index2 = 1,
+    /// Additional color
+    Index3 = 2,
+    /// Another additional color
+    Index4 = 3,
+}
+
+#[derive(Copy, Clone, Debug)]
+pub enum PaletteIndex {
+    Transparent = 0,
+    Palette1 = 1,
+    Palette2 = 2,
+    Palette3 = 3,
+    Palette4 = 4,
+}
 
 #[allow(dead_code)]
 impl Framebuffer {
@@ -37,7 +59,46 @@ impl Framebuffer {
         unsafe { system::textUtf8(text.as_ptr(), text.len(), start.x, start.y) }
     }
 
-    pub fn set_color(&self, color_index: u16) {
-        unsafe { *system::DRAW_COLORS = color_index }
+    pub fn sprite(&self, sprite: Sprite, start: Point<i32>) {
+        let bytes = sprite.bytes().as_ptr();
+        let size = sprite.size();
+        let flags = sprite.flags();
+        unsafe {
+            system::blit(bytes, start.x, start.y, size.width, size.height, flags);
+        }
+    }
+
+    pub fn set_draw_colors(&self, palettes: [PaletteIndex; 4]) {
+        let mut draw_colors = 0u16;
+        draw_colors |= (palettes[0] as u16) << DrawColorIndex::Index1.offset();
+        draw_colors |= (palettes[1] as u16) << DrawColorIndex::Index2.offset();
+        draw_colors |= (palettes[2] as u16) << DrawColorIndex::Index3.offset();
+        draw_colors |= (palettes[3] as u16) << DrawColorIndex::Index4.offset();
+        unsafe {
+            *system::DRAW_COLORS = draw_colors;
+        }
+    }
+
+    pub fn set_draw_color(&self, draw_color: DrawColorIndex, palette: PaletteIndex) {
+        let mut draw_colors = unsafe { *system::DRAW_COLORS };
+        // Clear bits for the draw color index
+        draw_colors &= !(0b1111 << draw_color.offset());
+        // Set proper bits for the draw color index
+        draw_colors |= (palette as u16) << draw_color.offset();
+
+        unsafe {
+            *system::DRAW_COLORS = draw_colors;
+        }
+    }
+}
+
+impl DrawColorIndex {
+    fn offset(&self) -> u8 {
+        match self {
+            DrawColorIndex::Index1 => 0,
+            DrawColorIndex::Index2 => 4,
+            DrawColorIndex::Index3 => 8,
+            DrawColorIndex::Index4 => 12
+        }
     }
 }
