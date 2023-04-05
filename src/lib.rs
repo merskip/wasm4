@@ -13,7 +13,7 @@ pub mod geometry;
 pub mod gamepad;
 pub mod inputs;
 pub mod sprite;
-pub mod sound;
+pub mod audio;
 
 pub fn get_char_size() -> Size<u32> {
     Size::new(system::CHAR_WIDTH, system::CHAR_HEIGHT)
