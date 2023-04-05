@@ -52,9 +52,11 @@ impl Duration {
         Self(value)
     }
 
-    /// * `value` - Duration of the tone in milliseconds
-    pub const fn from_millis(value: u8) -> Self {
-        Self(value / 16)
+    /// * `value` - Duration of the tone in milliseconds, max 4250 ms
+    pub const fn from_millis(value: u16) -> Self {
+        assert!(value <= 4250, "value must be below 4250");
+        let frames = value * 3 / 50;
+        Self(frames as u8)
     }
 }
 
@@ -113,14 +115,26 @@ impl Into<u32> for Volume {
     }
 }
 
+impl Default for Volume {
+    fn default() -> Self {
+        Self::constant(100)
+    }
+}
+
 pub struct Flags(u32);
 
+/// WASM-4's sound system has 4 independent channels.
+/// Each channel is dedicated to a different type of audio waveform.
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum Channel {
-    Pulse1 = 0b0000,
-    Pulse2 = 0b0001,
-    Triangle = 0b0010,
-    Noise = 0b0011,
+    /// Classic chiptune sound, square wave
+    Pulse1 = 0b00,
+    /// Classic chiptune sound, square wave
+    Pulse2 = 0b01,
+    /// A softer sound, great for bass
+    Triangle = 0b10,
+    /// A harsh sound, for percussion and effects
+    Noise = 0b11,
 }
 
 /// For pulse channels, the pulse wave duty cycle.
@@ -136,11 +150,19 @@ pub enum DutyCycle {
     ThreeQuarters = 0b11,
 }
 
+/// The pan means the direction of the sound,
+/// it could be from left speaker or from right speaker or both
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum Pan {
     Center = 0b00,
     Left = 0b01,
     Right = 0b10,
+}
+
+impl Default for Pan {
+    fn default() -> Self {
+        Self::Center
+    }
 }
 
 impl Flags {
