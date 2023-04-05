@@ -3,7 +3,7 @@ use crate::system;
 pub struct Audio;
 
 impl Audio {
-    pub fn shared() -> Self {
+    pub const fn shared() -> Self {
         Self
     }
 
