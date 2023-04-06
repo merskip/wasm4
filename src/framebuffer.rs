@@ -64,7 +64,7 @@ impl Framebuffer {
         let size = sprite.size();
         let flags = sprite.flags();
         unsafe {
-            system::blit(bytes, start.x, start.y, size.width, size.height, flags);
+            system::blit(bytes, start.x, start.y, size.width, size.height, flags as u32);
         }
     }
 
