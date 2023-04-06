@@ -59,7 +59,7 @@ impl Framebuffer {
         unsafe { system::textUtf8(text.as_ptr(), text.len(), start.x, start.y) }
     }
 
-    pub fn sprite(&self, sprite: Sprite, start: Point<i32>) {
+    pub fn sprite(&self, sprite: &Sprite, start: Point<i32>) {
         let bytes = sprite.bytes().as_ptr();
         let size = sprite.size();
         let flags = sprite.flags();
