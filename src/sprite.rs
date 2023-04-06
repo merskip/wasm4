@@ -21,6 +21,14 @@ impl Sprite {
         Self { size, flags, bytes }
     }
 
+    pub const fn empty() -> Self {
+        Self {
+            size: Size::new(0, 0),
+            flags: Flags::BLIT_1BPP,
+            bytes: &[],
+        }
+    }
+
     pub fn size(&self) -> Size<u32> {
         self.size
     }
