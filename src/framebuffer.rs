@@ -1,7 +1,7 @@
-use crate::system;
 use crate::color::Color;
 use crate::geometry::{Point, Size};
 use crate::sprite::Sprite;
+use crate::system;
 
 pub struct Framebuffer {}
 
@@ -26,6 +26,8 @@ pub enum PaletteIndex {
     Palette3 = 3,
     Palette4 = 4,
 }
+
+pub type Palette = [Color; 4];
 
 #[allow(dead_code)]
 impl Framebuffer {
@@ -103,7 +105,7 @@ impl Framebuffer {
         ]
     }
 
-    pub fn get_palette(&self) -> [Color; 4] {
+    pub fn get_palette(&self) -> Palette {
         let palette = unsafe { *system::PALETTE };
         [
             Color::from(palette[0]),
@@ -113,13 +115,13 @@ impl Framebuffer {
         ]
     }
 
-    pub fn set_palette(&self, colors: [Color; 4]) {
+    pub fn set_palette(&self, palette: Palette) {
         unsafe {
             *system::PALETTE = [
-                colors[0].into(),
-                colors[1].into(),
-                colors[2].into(),
-                colors[3].into(),
+                palette[0].into(),
+                palette[1].into(),
+                palette[2].into(),
+                palette[3].into(),
             ]
         }
     }

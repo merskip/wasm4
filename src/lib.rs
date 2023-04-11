@@ -4,6 +4,8 @@ extern crate alloc;
 
 use alloc::string::ToString;
 use core::fmt;
+use crate::color::Color;
+use crate::framebuffer::{Palette, PaletteIndex};
 use crate::geometry::Size;
 
 mod system;
@@ -41,3 +43,11 @@ macro_rules! println {
         $crate::_trace_args(format_args!($($arg)*))
     );
 }
+
+/// From https://wasm4.org/docs/guides/basic-drawing
+pub const PALETTE_DEFAULT: Palette = [
+    Color::from(0xe0f8cf),
+    Color::from(0x86c06c),
+    Color::from(0x306850),
+    Color::from(0x071821)
+];

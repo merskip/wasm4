@@ -10,27 +10,31 @@ pub struct Color {
 
 #[allow(dead_code)]
 impl Color {
-    pub const BLACK: Color = Self::new(0x00, 0x00, 0x00);
-    pub const WHITE: Color = Self::new(0xff, 0xff, 0xff);
-    pub const RED: Color = Self::new(0xff, 0x00, 0x00);
-    pub const GREEN: Color = Self::new(0x00, 0xff, 0x00);
-    pub const BLUE: Color = Self::new(0x00, 0x00, 0xff);
-    pub const YELLOW: Color = Self::new(0xff, 0xff, 0x00);
-    pub const CYAN: Color = Self::new(0x00, 0xff, 0xff);
-    pub const MAGENTA: Color = Self::new(0xff, 0x00, 0xff);
+    pub const BLACK: Color = Self::from(0x000000);
+    pub const WHITE: Color = Self::from(0xffffff);
+    pub const RED: Color = Self::from(0xff0000);
+    pub const GREEN: Color = Self::from(0x00ff00);
+    pub const BLUE: Color = Self::from(0x0000ff);
+    pub const YELLOW: Color = Self::from(0xffff00);
+    pub const CYAN: Color = Self::from(0x00ffff);
+    pub const MAGENTA: Color = Self::from(0xff00ff);
 
     pub const fn new(red: u8, green: u8, blue: u8) -> Self {
         Self { red, green, blue }
+    }
+
+    pub const fn from(value: u32) -> Self {
+        Self {
+            red: ((value & 0xff0000) >> 16) as u8,
+            green: ((value & 0x00ff00) >> 8) as u8,
+            blue: ((value & 0x0000ff) >> 0) as u8,
+        }
     }
 }
 
 impl From<u32> for Color {
     fn from(value: u32) -> Self {
-        Color::new(
-            ((value & 0xff0000) >> 16) as u8,
-            ((value & 0x00ff00) >> 8) as u8,
-            ((value & 0x0000ff) >> 0) as u8,
-        )
+        Self::from(value)
     }
 }
 
