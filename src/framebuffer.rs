@@ -16,6 +16,7 @@ pub enum DrawColorIndex {
     Index4 = 3,
 }
 
+#[repr(u8)]
 #[derive(Copy, Clone, Debug)]
 pub enum PaletteIndex {
     Transparent = 0,
@@ -90,6 +91,16 @@ impl Framebuffer {
             *system::DRAW_COLORS = draw_colors;
         }
     }
+
+    pub fn get_draw_colors(&self) -> [PaletteIndex; 4] {
+        let draw_colors = unsafe { *system::DRAW_COLORS };
+        [
+            PaletteIndex::try_from(draw_colors & 0x000f >> DrawColorIndex::Index1.offset()).unwrap(),
+            PaletteIndex::try_from(draw_colors & 0x00f0 >> DrawColorIndex::Index2.offset()).unwrap(),
+            PaletteIndex::try_from(draw_colors & 0x0f00 >> DrawColorIndex::Index3.offset()).unwrap(),
+            PaletteIndex::try_from(draw_colors & 0xf000 >> DrawColorIndex::Index4.offset()).unwrap(),
+        ]
+    }
 }
 
 impl DrawColorIndex {
@@ -99,6 +110,21 @@ impl DrawColorIndex {
             DrawColorIndex::Index2 => 4,
             DrawColorIndex::Index3 => 8,
             DrawColorIndex::Index4 => 12
+        }
+    }
+}
+
+impl TryFrom<u16> for PaletteIndex {
+    type Error = ();
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(PaletteIndex::Transparent),
+            1 => Ok(PaletteIndex::Palette1),
+            2 => Ok(PaletteIndex::Palette2),
+            3 => Ok(PaletteIndex::Palette3),
+            4 => Ok(PaletteIndex::Palette4),
+            _ => Err(())
         }
     }
 }
