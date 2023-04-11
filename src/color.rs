@@ -3,9 +3,9 @@ use core::fmt::{Debug, Formatter};
 #[repr(C)]
 #[derive(Copy, Clone, Eq, PartialEq)]
 pub struct Color {
-    red: u8,
-    green: u8,
-    blue: u8,
+    pub red: u8,
+    pub green: u8,
+    pub blue: u8,
 }
 
 #[allow(dead_code)]
