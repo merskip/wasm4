@@ -1,6 +1,7 @@
+use crate::system;
+use crate::color::Color;
 use crate::geometry::{Point, Size};
 use crate::sprite::Sprite;
-use crate::system;
 
 pub struct Framebuffer {}
 
@@ -100,6 +101,27 @@ impl Framebuffer {
             PaletteIndex::try_from(draw_colors & 0x0f00 >> DrawColorIndex::Index3.offset()).unwrap(),
             PaletteIndex::try_from(draw_colors & 0xf000 >> DrawColorIndex::Index4.offset()).unwrap(),
         ]
+    }
+
+    pub fn get_palette(&self) -> [Color; 4] {
+        let palette = unsafe { *system::PALETTE };
+        [
+            Color::from(palette[0]),
+            Color::from(palette[1]),
+            Color::from(palette[2]),
+            Color::from(palette[3]),
+        ]
+    }
+
+    pub fn set_palette(&self, colors: [Color; 4]) {
+        unsafe {
+            *system::PALETTE = [
+                colors[0].into(),
+                colors[1].into(),
+                colors[2].into(),
+                colors[3].into(),
+            ]
+        }
     }
 }
 
