@@ -1,3 +1,5 @@
+use core::ops::Add;
+
 use crate::geometry::{Point, Size};
 
 #[derive(Copy, Clone, Eq, PartialEq, Default, Debug)]
@@ -19,5 +21,13 @@ impl Rect {
             ),
             size,
         }
+    }
+}
+
+impl Add<Point<i32>> for Rect {
+    type Output = Rect;
+
+    fn add(self, rhs: Point<i32>) -> Self::Output {
+        Rect::new(self.origin + rhs, self.size)
     }
 }
