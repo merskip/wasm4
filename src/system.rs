@@ -49,6 +49,13 @@ pub const TONE_MODE2: u32 = 4;
 pub const TONE_MODE3: u32 = 8;
 pub const TONE_MODE4: u32 = 12;
 
+pub const CHAR_X_BUTTON: u8 = 0x80;
+pub const CHAR_Y_BUTTON: u8 = 0x81;
+pub const CHAR_LEFT_ARROW: u8 = 0x84;
+pub const CHAR_RIGHT_ARROW: u8 = 0x85;
+pub const CHAR_UP_ARROW: u8 = 0x86;
+pub const CHAR_DOWN_ARROW: u8 = 0x87;
+
 extern "C" {
     pub fn rect(x: i32, y: i32, width: u32, height: u32);
     pub fn oval(x: i32, y: i32, width: u32, height: u32);

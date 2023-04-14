@@ -2,7 +2,8 @@
 
 extern crate alloc;
 
-use alloc::string::ToString;
+use alloc::string::{String, ToString};
+use alloc::vec;
 use core::fmt;
 
 use crate::color::Color;
@@ -22,6 +23,30 @@ pub mod hsl_color;
 
 pub fn get_char_size() -> Size<u32> {
     Size::new(system::CHAR_WIDTH, system::CHAR_HEIGHT)
+}
+
+pub fn char_x_button() -> String {
+    unsafe { String::from_utf8_unchecked(vec![system::CHAR_X_BUTTON]) }
+}
+
+pub fn char_y_button() -> String {
+    unsafe { String::from_utf8_unchecked(vec![system::CHAR_Y_BUTTON]) }
+}
+
+pub fn char_left_arrow() -> String {
+    unsafe { String::from_utf8_unchecked(vec![system::CHAR_LEFT_ARROW]) }
+}
+
+pub fn char_right_arrow() -> String {
+    unsafe { String::from_utf8_unchecked(vec![system::CHAR_RIGHT_ARROW]) }
+}
+
+pub fn char_up_arrow() -> String {
+    unsafe { String::from_utf8_unchecked(vec![system::CHAR_UP_ARROW]) }
+}
+
+pub fn char_down_arrow() -> String {
+    unsafe { String::from_utf8_unchecked(vec![system::CHAR_DOWN_ARROW]) }
 }
 
 #[allow(dead_code)]
