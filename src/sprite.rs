@@ -1,5 +1,3 @@
-use crate::geometry::Size;
-
 #[derive(Copy, Clone)]
 #[allow(non_camel_case_types)]
 pub enum Flags {
@@ -11,22 +9,29 @@ pub enum Flags {
 }
 
 pub struct Sprite {
-    size: Size<u32>,
+    width: u32,
+    height: u32,
     flags: Flags,
     bytes: &'static [u8],
 }
 
 impl Sprite {
-    pub const fn new(size: Size<u32>, flags: Flags, bytes: &'static [u8]) -> Self {
-        Self { size, flags, bytes }
+    pub const fn new(width: u32, height: u32, flags: Flags, bytes: &'static [u8]) -> Self {
+        Self { width, height, flags, bytes }
     }
 
-    pub fn size(&self) -> Size<u32> {
-        self.size
+    pub fn width(&self) -> u32 {
+        self.width
     }
+
+    pub fn height(&self) -> u32 {
+        self.height
+    }
+
     pub fn flags(&self) -> Flags {
         self.flags
     }
+
     pub fn bytes(&self) -> &[u8] {
         &self.bytes
     }
@@ -35,7 +40,8 @@ impl Sprite {
 impl Default for Sprite {
     fn default() -> Self {
         Self {
-            size: Size::new(0, 0),
+            width: 0,
+            height: 0,
             flags: Flags::BLIT_1BPP,
             bytes: &[],
         }

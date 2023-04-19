@@ -1,5 +1,4 @@
 use crate::color::Color;
-use crate::geometry::{Point, Size};
 use crate::sprite::Sprite;
 use crate::system;
 
@@ -35,40 +34,45 @@ impl Framebuffer {
         Self {}
     }
 
-    pub fn get_size(&self) -> Size<u32> {
-        Size::new(system::SCREEN_WIDTH, system::SCREEN_HEIGHT)
+    pub fn get_screen_width(&self) -> u32 {
+        system::SCREEN_WIDTH
     }
 
-    pub fn line(&self, start: Point<i32>, end: Point<i32>) {
-        unsafe { system::line(start.x, start.y, end.x, end.y) }
+    pub fn get_screen_height(&self) -> u32 {
+        system::SCREEN_HEIGHT
     }
 
-    pub fn line_horizontal(&self, start: Point<i32>, length: u32) {
-        unsafe { system::hline(start.x, start.y, length) }
+    pub fn line(&self, start_x: i32, start_y: i32, end_x: i32, end_y: i32) {
+        unsafe { system::line(start_x, start_y, end_x, end_y) }
     }
 
-    pub fn line_vertical(&self, start: Point<i32>, length: u32) {
-        unsafe { system::vline(start.x, start.y, length) }
+    pub fn line_horizontal(&self, start_x: i32, start_y: i32, length: u32) {
+        unsafe { system::hline(start_x, start_y, length) }
     }
 
-    pub fn oval(&self, start: Point<i32>, size: Size<u32>) {
-        unsafe { system::oval(start.x, start.y, size.width, size.height) }
+    pub fn line_vertical(&self, start_x: i32, start_y: i32, length: u32) {
+        unsafe { system::vline(start_x, start_y, length) }
     }
 
-    pub fn rectangle(&self, start: Point<i32>, size: Size<u32>) {
-        unsafe { system::rect(start.x, start.y, size.width, size.height) }
+    pub fn oval(&self, start_x: i32, start_y: i32, width: u32, height: u32) {
+        unsafe { system::oval(start_x, start_y, width, height) }
     }
 
-    pub fn text(&self, text: &str, start: Point<i32>) {
-        unsafe { system::textUtf8(text.as_ptr(), text.len(), start.x, start.y) }
+    pub fn rectangle(&self, start_x: i32, start_y: i32, width: u32, height: u32) {
+        unsafe { system::rect(start_x, start_y, width, height) }
     }
 
-    pub fn sprite(&self, sprite: &Sprite, start: Point<i32>) {
+    pub fn text(&self, text: &str, start_x: i32, start_y: i32) {
+        unsafe { system::textUtf8(text.as_ptr(), text.len(), start_x, start_y) }
+    }
+
+    pub fn sprite(&self, sprite: &Sprite, start_x: i32, start_y: i32) {
         let bytes = sprite.bytes().as_ptr();
-        let size = sprite.size();
+        let width = sprite.width();
+        let height = sprite.width();
         let flags = sprite.flags();
         unsafe {
-            system::blit(bytes, start.x, start.y, size.width, size.height, flags as u32);
+            system::blit(bytes, start_x, start_y, width, height, flags as u32);
         }
     }
 

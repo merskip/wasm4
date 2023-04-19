@@ -8,12 +8,10 @@ use core::fmt;
 
 use crate::color::Color;
 use crate::framebuffer::Palette;
-use crate::geometry::Size;
 
 mod system;
 pub mod application;
 pub mod framebuffer;
-pub mod geometry;
 pub mod gamepad;
 pub mod inputs;
 pub mod sprite;
@@ -21,8 +19,12 @@ pub mod audio;
 pub mod color;
 pub mod hsl_color;
 
-pub fn get_char_size() -> Size<u32> {
-    Size::new(system::CHAR_WIDTH, system::CHAR_HEIGHT)
+pub fn get_char_width() -> u32 {
+    system::CHAR_WIDTH
+}
+
+pub fn get_char_height() -> u32 {
+    system::CHAR_HEIGHT
 }
 
 pub fn char_x_button() -> String {
