@@ -76,24 +76,18 @@ impl Framebuffer {
         }
     }
 
-    pub fn set_draw_colors(&self, palettes: [PaletteIndex; 4]) {
-        let mut draw_colors = 0u16;
-        draw_colors |= (palettes[0] as u16) << DrawColorIndex::Index1.offset();
-        draw_colors |= (palettes[1] as u16) << DrawColorIndex::Index2.offset();
-        draw_colors |= (palettes[2] as u16) << DrawColorIndex::Index3.offset();
-        draw_colors |= (palettes[3] as u16) << DrawColorIndex::Index4.offset();
-        unsafe {
-            *system::DRAW_COLORS = draw_colors;
-        }
-    }
-
-    pub fn set_draw_color(&self, draw_color: DrawColorIndex, palette: PaletteIndex) {
+    pub fn set_draw_colors(&self, palettes: [Option<PaletteIndex>; 4]) {
         let mut draw_colors = unsafe { *system::DRAW_COLORS };
-        // Clear bits for the draw color index
-        draw_colors &= !(0b1111 << draw_color.offset());
-        // Set proper bits for the draw color index
-        draw_colors |= (palette as u16) << draw_color.offset();
-
+        let mut set_draw_color = |draw_color: DrawColorIndex, palette| {
+            if let Some(palette) = palette {
+                draw_colors &= !(0b1111 << draw_color.offset());
+                draw_colors |= (palette as u16) << draw_color.offset();
+            }
+        };
+        set_draw_color(DrawColorIndex::Index1, palettes[0]);
+        set_draw_color(DrawColorIndex::Index2, palettes[1]);
+        set_draw_color(DrawColorIndex::Index3, palettes[2]);
+        set_draw_color(DrawColorIndex::Index4, palettes[3]);
         unsafe {
             *system::DRAW_COLORS = draw_colors;
         }
