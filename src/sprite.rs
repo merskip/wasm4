@@ -9,32 +9,10 @@ pub enum Flags {
 }
 
 pub struct Sprite {
-    width: u32,
-    height: u32,
-    flags: Flags,
-    bytes: &'static [u8],
-}
-
-impl Sprite {
-    pub const fn new(width: u32, height: u32, flags: Flags, bytes: &'static [u8]) -> Self {
-        Self { width, height, flags, bytes }
-    }
-
-    pub fn width(&self) -> u32 {
-        self.width
-    }
-
-    pub fn height(&self) -> u32 {
-        self.height
-    }
-
-    pub fn flags(&self) -> Flags {
-        self.flags
-    }
-
-    pub fn bytes(&self) -> &[u8] {
-        &self.bytes
-    }
+    pub width: u32,
+    pub height: u32,
+    pub flags: Flags,
+    pub bytes: &'static [u8],
 }
 
 impl Default for Sprite {

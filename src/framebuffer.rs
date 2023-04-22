@@ -5,7 +5,7 @@ use crate::system;
 pub struct Framebuffer {}
 
 #[derive(Copy, Clone, Debug)]
-pub enum DrawColorIndex {
+enum DrawColorIndex {
     /// Foreground, fill
     Index1 = 0,
     /// Outline, background
@@ -67,12 +67,8 @@ impl Framebuffer {
     }
 
     pub fn sprite(&self, sprite: &Sprite, start_x: i32, start_y: i32) {
-        let bytes = sprite.bytes().as_ptr();
-        let width = sprite.width();
-        let height = sprite.width();
-        let flags = sprite.flags();
         unsafe {
-            system::blit(bytes, start_x, start_y, width, height, flags as u32);
+            system::blit(sprite.bytes.as_ptr(), start_x, start_y, sprite.width, sprite.height, sprite.flags as u32);
         }
     }
 
