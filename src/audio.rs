@@ -43,44 +43,30 @@ impl Into<u32> for Frequency {
     }
 }
 
-/// Duration of the tone
-pub struct Duration(u8);
-
-impl Duration {
-    /// * `value` - Duration of the tone in frames, one frame is 1/60 of a second
-    pub const fn from_frames(value: u8) -> Self {
-        Self(value)
-    }
-
-    /// * `value` - Duration of the tone in milliseconds, max 4250 ms
-    pub const fn from_millis(value: u16) -> Self {
-        assert!(value <= 4250, "value must be below 4250");
-        let frames = value * 3 / 50;
-        Self(frames as u8)
-    }
-}
+/// Duration of the tone in frames
+pub type ToneDuration = u8;
 
 /// Duration of the tone with describe changes over time
 pub struct ADSRDuration(u32);
 
 impl ADSRDuration {
     /// * `duration` - Constant duration of the tone
-    pub const fn constant(duration: Duration) -> Self {
-        Self(duration.0 as u32)
+    pub const fn constant(duration: ToneDuration) -> Self {
+        Self(duration as u32)
     }
 
     /// * `attack` - The time it takes to initially ramp up from 0 volume to peak volume.
     /// * `decay` - The time taken to ramp down from peak volume to the sustain volume.
     /// * `sustain` - The time to hold the tone steady at the sustain volume.
     /// * `release` - The time to ramp back down to 0 volume.
-    pub const fn new(attack: Duration,
-                     decay: Duration,
-                     sustain: Duration,
-                     release: Duration) -> Self {
-        Self((sustain.0 as u32) |
-            ((release.0 as u32) << 8) |
-            ((decay.0 as u32) << 16) |
-            ((attack.0 as u32) << 24))
+    pub const fn new(attack: ToneDuration,
+                     decay: ToneDuration,
+                     sustain: ToneDuration,
+                     release: ToneDuration) -> Self {
+        Self((sustain as u32) |
+            ((release as u32) << 8) |
+            ((decay as u32) << 16) |
+            ((attack as u32) << 24))
     }
 }
 
